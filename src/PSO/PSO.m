@@ -78,6 +78,11 @@ function results = PSO(config, fun)
         end
         inertiaCoef = inertiaCoef*dampingCoef;
         bestValuesHistory(iterations) = globalBestValue;
+        
+        if (iterations > 10 && ...
+                bestValuesHistory(iterations - 10) - globalBestValue < config.targetAccuracy)
+            break;
+        end
     end
     
     %% Populate ouput object

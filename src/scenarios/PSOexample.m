@@ -1,10 +1,11 @@
-functionWrapper = @(X) (sphereFunction(X(1), X(2)));
+functionWrapper = @(X) (rastriginFunction(X(1), X(2)));
 % Populate configuration
 config = PsoConfig();
 config.bounds = [-5 5];
 config.dimensions = 2;
 config.particleCount = 50;
 config.maxIterations = 50;
+config.targetAccuracy = 10^-10;
 config.inertiaCoefficient = 0.5;
 config.cognitiveCoefficient = 0.7;
 config.socialCoefficient = 0.7;
@@ -14,12 +15,11 @@ config.dampingCoefficient = 0.99;
 results = PSO(config, functionWrapper);
 
 % Plot results
-
 %bounds = [-1 1];
 bounds = config.bounds;
-graphWrapper = @(X1, X2) (sphereFunction(X1, X2));
+graphWrapper = @(X1, X2) (rastriginFunction(X1, X2));
 for i=1:results.iterations
-    fcontour(graphWrapper, 'fill', 'off', "XRange", bounds, "YRange", bounds, "LevelStep", 1)
+    fcontour(graphWrapper, 'fill', 'off', "XRange", bounds, "YRange", bounds, "LevelStep", 4)
     hold on
     plot(results.pointsHistory(:, 1, i), results.pointsHistory(:, 2, i), 'r*')
     hold on
