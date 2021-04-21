@@ -63,6 +63,9 @@ function results = PSO(config, fun)
                 + socialCoef*rand([1 dimensions]).*(globalBestPosition - particles(i).position);
 
             particles(i).position = particles(i).position + particles(i).velocity;
+            % Normalise the position according to bounds
+            particles(i).position = min(max(particles(i).position, bounds(1)), bounds(2));
+            
             particles(i).value = invoker.get(particles(i).position);
 
             if particles(i).value < particles(i).bestValue
