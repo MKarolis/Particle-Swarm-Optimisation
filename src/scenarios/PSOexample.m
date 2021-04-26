@@ -15,17 +15,6 @@ config.dampingCoefficient = 0.99;
 results = PSO(config, functionWrapper);
 
 % Plot results
-%bounds = [-1 1];
-bounds = config.bounds;
 graphWrapper = @(X1, X2) (rastriginFunction(X1, X2));
-for i=1:results.iterations
-    fcontour(graphWrapper, 'fill', 'off', "XRange", bounds, "YRange", bounds, "LevelStep", 4)
-    hold on
-    plot(results.pointsHistory(:, 1, i), results.pointsHistory(:, 2, i), 'r*')
-    hold on
-    ylim(bounds)
-    xlim(bounds)
-    title(['Iteration ' num2str(i) ' | Best ' num2str(results.bestValueHistory(i))]);
-    hold off;
-    drawnow;
-end
+plotService = PlotService();
+plotService.createGif(results, graphWrapper, config.bounds, config.bounds, 'x', 'y', 4, 50, 'figure.gif', 0.2, 'gif');
